@@ -1,4 +1,9 @@
 import random
+import re
+
+word_bank = open("/usr/share/dict/words")
+dictionary = word_bank.read()
+dictionary = dictionary.split()
 
 
 def easy_words(word_list):
@@ -34,7 +39,7 @@ def hard_words(word_list):
     hard_list = []
     for word in hard_list:
         if len(word) > 7:
-            medium_list.append(word)
+            hard_list.append(word)
     return hard_list
 
 
@@ -57,6 +62,27 @@ def display_word(word, guesses):
     For example, if the word is BOMBARD and the letters guessed are a, b,
     and d, this function should return 'B _ _ B A _ D'.
     """
+    word_display = []
+    for letter in word:
+        if letter in guesses:
+            word_display.append(letter)
+        else:
+            word_display.append('_')
+
+    return word_display
+
+def difficulty():
+    diff = input("ENTER easy, medium, or hard to decide the difficulty.")
+    if diff == 'easy':
+        game_word = random_word(easy_words(dictionary))
+    elif diff == 'medium':
+        game_word = random_word(medium_words(dictionary))
+    else:
+        game_word = random_word(hard_words(dictionary))
+
+    return game_word
+
+
 
 
 
@@ -67,7 +93,13 @@ def is_word_complete(word, guesses):
     Returns True if the list of guesses covers every letter in the word,
     otherwise returns False.
     """
-    
+    attempts = display_word(word, guesses)
+    if '_' in attempts:
+        return False
+    else:
+        return True
+
+
 
 
 def main():
