@@ -100,7 +100,7 @@ def is_word_complete(word, guesses):
         return True
 
 
-
+def game_loop(game_word):
 
 def main():
     """
