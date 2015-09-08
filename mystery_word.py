@@ -108,7 +108,7 @@ def game_loop(game_word):
     done = False
     process = True
 
-    while process
+    while process:
         word_display = dislplay_word(word,guesses)
         guess = get_guess(guesses)
         if guess not in word:
@@ -152,7 +152,7 @@ new_game = True
 while new_game:
     play(word_list)
     new_try = input("Want to try again? (Y) or (N): ")
-    if new_try[0] = ('Y', 'y'):
+    if new_try[0] in ('Y', 'y'):
         print("Let's Play!")
         new_game = True
     else:
