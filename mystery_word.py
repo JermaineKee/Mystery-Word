@@ -2,8 +2,7 @@ import random
 import re
 
 word_bank = open("/usr/share/dict/words")
-dictionary = word_bank.read()
-dictionary = dictionary.split()
+dictionary = word_bank.split()
 
 
 def easy_words(word_list):
@@ -47,8 +46,22 @@ def random_word(word_list):
     """
     Returns a random word from the word list.
     """
-    return random.choice(word_list)
+    return random.word(word_list)
 
+
+
+
+
+def difficulty():
+    diff = input("ENTER easy, medium, or hard to decide the difficulty.")
+    if diff == 'easy':
+        game_word = random_word(easy_words(dictionary))
+    elif diff == 'medium':
+        game_word = random_word(medium_words(dictionary))
+    else:
+        game_word = random_word(hard_words(dictionary))
+
+return game_word
 
 
 def display_word(word, guesses):
@@ -71,18 +84,6 @@ def display_word(word, guesses):
 
     return word_display
 
-def difficulty():
-    diff = input("ENTER easy, medium, or hard to decide the difficulty.")
-    if diff == 'easy':
-        game_word = random_word(easy_words(dictionary))
-    elif diff == 'medium':
-        game_word = random_word(medium_words(dictionary))
-    else:
-        game_word = random_word(hard_words(dictionary))
-
-    return game_word
-
-
 
 
 
@@ -102,6 +103,40 @@ def is_word_complete(word, guesses):
 
 def game_loop(game_word):
 
+    guesses = []
+    attempt = 8
+    done = False
+    process = True
+
+    while process
+        word_display = dislplay_word(word,guesses)
+        guess = get_guess(guesses)
+        if guess not in word:
+            attempt -= 1
+        guesses.append(guess)
+        complete = is_word_complete(word,guesses)
+        if complete == True:
+            process = False
+            done = True
+        elif attempt == 0:
+            process = False
+            done = False
+    return done
+
+def game_time(diff, word_list):
+    new = True
+    guess = ''
+    while new:
+        guess = input("\nGuess a Letter")
+        if guess[0] in guesses:
+            print("\nNew letter please, this one has been guessed before")
+        else:
+            new = False
+    return gues[0]
+
+
+
+
 def main():
     """
     Runs when the program is called from the command-line.
@@ -109,6 +144,21 @@ def main():
     1. Prompts the user for a difficulty level
     2. Sets up the game based upon the difficulty level
     3. Performs the game loop, consisting of:"""
+word_list = []
+with open("/usr/share/dict/words") as word_bank:
+    word_list = word_bank.read()
+    word_list = word_list.split()
+new_game = True
+while new_game:
+    play(word_list)
+    new_try = input("Want to try again? (Y) or (N): ")
+    if new_try[0] = ('Y', 'y'):
+        print("Let's Play!")
+        new_game = True
+    else:
+        print("Ok, Goodbye")
+        new_game = False
+
 
 if __name__ == __’main’__:
 	main()
