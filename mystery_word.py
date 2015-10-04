@@ -1,9 +1,6 @@
 import random
 import re
 
-word_bank = open("/usr/share/dict/words")
-dictionary = word_bank.split()
-
 
 def easy_words(word_list):
     """
@@ -11,11 +8,10 @@ def easy_words(word_list):
     4-6 characters.
     """
     easy_list = []
-    for word in easy_list:
+    for word in word_list:
         if len(word) >= 4 and len(word) <= 6:
             easy_list.append(word)
     return easy_list
-
 
 
 def medium_words(word_list):
@@ -24,7 +20,7 @@ def medium_words(word_list):
     6-8 characters.
     """
     medium_list = []
-    for word in medium_list:
+    for word in word_list:
         if len(word) >= 6 and len(word) <= 8:
             medium_list.append(word)
     return medium_list
@@ -36,7 +32,7 @@ def hard_words(word_list):
     8+ characters.
     """
     hard_list = []
-    for word in hard_list:
+    for word in word_list:
         if len(word) > 7:
             hard_list.append(word)
     return hard_list
@@ -46,22 +42,21 @@ def random_word(word_list):
     """
     Returns a random word from the word list.
     """
-    return random.word(word_list)
-
-
-
+    myst_word = random.choice(word_list)
+    return myst_word
 
 
 def difficulty():
     diff = input("ENTER easy, medium, or hard to decide the difficulty.")
     if diff == 'easy':
-        game_word = random_word(easy_words(dictionary))
-    elif diff == 'medium':
-        game_word = random_word(medium_words(dictionary))
-    else:
-        game_word = random_word(hard_words(dictionary))
+        game_word = random_word(easy_words(word_list))
 
-return game_word
+    elif diff == 'medium':
+        game_word = random_word(medium_words(word_list))
+    else:
+        game_word = random_word(hard_words(word_list))
+
+    return game_word
 
 
 def display_word(word, guesses):
@@ -76,17 +71,14 @@ def display_word(word, guesses):
     and d, this function should return 'B _ _ B A _ D'.
     """
     word_display = []
-    for letter in word:
-        if letter in guesses:
-            word_display.append(letter)
+    for guess in word:
+        if guess in guesses:
+            word_display.append(guess)
         else:
             word_display.append('_')
 
+    word_display = ' '.join(word_display).upper()
     return word_display
-
-
-
-
 
 
 def is_word_complete(word, guesses):
@@ -101,42 +93,6 @@ def is_word_complete(word, guesses):
         return True
 
 
-def game_loop(game_word):
-
-    guesses = []
-    attempt = 8
-    done = False
-    process = True
-
-    while process:
-        word_display = dislplay_word(word,guesses)
-        guess = get_guess(guesses)
-        if guess not in word:
-            attempt -= 1
-        guesses.append(guess)
-        complete = is_word_complete(word,guesses)
-        if complete == True:
-            process = False
-            done = True
-        elif attempt == 0:
-            process = False
-            done = False
-    return done
-
-def game_time(diff, word_list):
-    new = True
-    guess = ''
-    while new:
-        guess = input("\nGuess a Letter")
-        if guess[0] in guesses:
-            print("\nNew letter please, this one has been guessed before")
-        else:
-            new = False
-    return gues[0]
-
-
-
-
 def main():
     """
     Runs when the program is called from the command-line.
@@ -144,13 +100,38 @@ def main():
     1. Prompts the user for a difficulty level
     2. Sets up the game based upon the difficulty level
     3. Performs the game loop, consisting of:"""
-word_list = []
-with open("/usr/share/dict/words") as word_bank:
-    word_list = word_bank.read()
-    word_list = word_list.split()
+    word_list = []
+    with open("/usr/share/dict/words") as word_bank:
+        word_list = word_bank.read()
+        word_list = word_list.split()
+
+    diff = input("ENTER easy, medium, or hard to decide the difficulty. \n Enter quit, to quit")
+    if diff == 'easy':
+            game_word = random_word(easy_words(word_list))
+            print('You chose easy!')
+    elif diff == 'medium':
+        game_word = random_word(medium_words(word_list))
+        print('You chose medium!')
+    elif diff == 'hard':
+        game_word = random_word(hard_words(word_list))
+        print('You chose hard!')
+    elif diff == 'quit':
+        print('Adios Quitter!')
+        exit()
+    else:
+        print('Not acceptable response, try again')
+        return main()
+
+    attempts = 8
+    guessed = [
+    print('Your word has {} letters'.format(len(game_word)))
+    ]
+
+
+
+
 new_game = True
 while new_game:
-    play(word_list)
     new_try = input("Want to try again? (Y) or (N): ")
     if new_try[0] in ('Y', 'y'):
         print("Let's Play!")
@@ -160,5 +141,5 @@ while new_game:
         new_game = False
 
 
-if __name__ == __’main’__:
-	main()
+if __name__ == '__main__':
+        main()
