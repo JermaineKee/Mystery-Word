@@ -46,17 +46,17 @@ def random_word(word_list):
     return myst_word
 
 
-def difficulty():
-    diff = input("ENTER easy, medium, or hard to decide the difficulty.")
-    if diff == 'easy':
-        game_word = random_word(easy_words(word_list))
-
-    elif diff == 'medium':
-        game_word = random_word(medium_words(word_list))
-    else:
-        game_word = random_word(hard_words(word_list))
-
-    return game_word
+# def difficulty():
+#     diff = input("ENTER easy, medium, or hard to decide the difficulty.")
+#     if diff == 'easy':
+#         game_word = random_word(easy_words(word_list))
+#
+#     elif diff == 'medium':
+#         game_word = random_word(medium_words(word_list))
+#     else:
+#         game_word = random_word(hard_words(word_list))
+#
+#     return game_word
 
 
 def display_word(word, guesses):
@@ -86,11 +86,10 @@ def is_word_complete(word, guesses):
     Returns True if the list of guesses covers every letter in the word,
     otherwise returns False.
     """
-    attempts = display_word(word, guesses)
-    if '_' in attempts:
-        return False
-    else:
-        return True
+    for letter in word:
+        if letter not in guesses:
+            return False
+    return True
 
 
 def main():
@@ -100,7 +99,7 @@ def main():
     1. Prompts the user for a difficulty level
     2. Sets up the game based upon the difficulty level
     3. Performs the game loop, consisting of:"""
-    word_list = []
+
     with open("/usr/share/dict/words") as word_bank:
         word_list = word_bank.read()
         word_list = word_list.split()
@@ -123,22 +122,62 @@ def main():
         return main()
 
     attempts = 8
-    guessed = [
+    guessed = []
     print('Your word has {} letters'.format(len(game_word)))
-    ]
+    while attempts > 0 and is_word_complete(game_word, guessed) == False:
+        print(display_word(game_word, guessed))
+        print('{} guesses to go'.format(attempts))
+        print(guessed)
+        while True:
+            rec_letter = input('Guess a letter: ').lower()
+            if rec_letter in guessed:
+                print('No duplicate letters please.')
+                continue
+            elif len(rec_letter) > 1:
+                print('Just one letter please.')
+                continue
+            elif rec_letter.isalpha() != True:
+                print ('Just letters please.')
+                continue
+            elif rec_letter in game_word:
+                guessed.append(rec_letter)
+                print('Right On!')
+                break
+            elif rec_letter not in game_word:
+                print('Nope!')
+                attempts -= 1
+                guessed.append(rec_letter)
+                break
+            else:
+                continue
+
+        if attempts <= 0:
+            new_game = input(('Nice Try. The word was {}. \n Enter (Y)es to play again: '.format(game_word)))
+            if new_game == 'yes':
+                return main()
+            else:
+                exit()
+        else:
+            new_game = input('Good Job! \n Enter (Y)es to play again: ')
+            if new_game == 'yes':
+                return main()
+            else:
+                exit()
 
 
 
 
-new_game = True
-while new_game:
-    new_try = input("Want to try again? (Y) or (N): ")
-    if new_try[0] in ('Y', 'y'):
-        print("Let's Play!")
-        new_game = True
-    else:
-        print("Ok, Goodbye")
-        new_game = False
+
+
+#new_game = True
+#while new_game:
+    #new_try = input("Want to try again? (Y) or (N): ")
+    #if new_try[0] in ('Y', 'y'):
+        #print("Let's Play!")
+        #new_game = True
+    #else:
+    #    print("Ok, Goodbye")
+    #    new_game = False
 
 
 if __name__ == '__main__':
